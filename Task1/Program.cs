@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Task1
@@ -20,7 +19,8 @@ namespace Task1
         public static void GetLastFiles(String path, String extension)
         {
             GetLeatestFile(path, extension);
-            GetAlsoFreshFiles(path, extension);
+
+            GetFreshFiles(path, extension);
         }
         private static void GetLeatestFile(String path, String extension)
         {
@@ -44,9 +44,8 @@ namespace Task1
             Console.WriteLine("last file =>" + fileName + ", created " + dt);
         }
 
-        private static void GetAlsoFreshFiles(String path, String extension)
+        private static void GetFreshFiles(String path, String extension)
         {
-            List<String> olsoFreshFilesList = new List<String>();
             FileSystemInfo[] fileSystemInfo = new DirectoryInfo(path).GetFileSystemInfos();
             foreach (FileSystemInfo fileSI in fileSystemInfo)
             {
@@ -57,9 +56,8 @@ namespace Task1
                     int timeDifference = (int)(dt - dt2).TotalSeconds;
                     if (timeDifference <= 10 & timeDifference >= 0 & fileSI.Name != fileName)
                     {
-                        Console.WriteLine(dt.Second - Convert.ToDateTime(fileSI.CreationTime).Second);
                         {
-                            olsoFreshFilesList.Add(fileSI.Name);
+                            Console.WriteLine("olso new file =>" + fileSI.Name);
                         }
                     }
                 }
@@ -69,11 +67,6 @@ namespace Task1
                     break;
                 }
             }
-            for (int j = 0; j < olsoFreshFilesList.Count; j++)
-            {
-                Console.WriteLine("olso new file =>" + olsoFreshFilesList[j]);
-            }
-
             Console.ReadLine();
         }
     }
