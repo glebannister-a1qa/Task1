@@ -18,14 +18,21 @@ namespace Task1
 
         public static void GetLastFiles(String path, String extension)
         {
+            InitFileSystemInfo(path);
+
             GetLeatestFile(path, extension);
 
             GetFreshFiles(path, extension);
         }
-        private static void GetLeatestFile(String path, String extension)
+
+        private static FileSystemInfo[] InitFileSystemInfo(string path)
         {
             FileSystemInfo[] fileSystemInfo = new DirectoryInfo(path).GetFileSystemInfos();
-            foreach (FileSystemInfo fileSI in fileSystemInfo)
+            return fileSystemInfo;
+        }
+        private static void GetLeatestFile(String path, String extension)
+        {    
+            foreach (FileSystemInfo fileSI in InitFileSystemInfo(path))
             {
                 if (Path.GetFileName(fileSI.FullName).Contains(extension))
                 {
@@ -46,13 +53,11 @@ namespace Task1
 
         private static void GetFreshFiles(String path, String extension)
         {
-            FileSystemInfo[] fileSystemInfo = new DirectoryInfo(path).GetFileSystemInfos();
-            foreach (FileSystemInfo fileSI in fileSystemInfo)
+            foreach (FileSystemInfo fileSI in InitFileSystemInfo(path))
             {
                 if (Path.GetFileName(fileSI.FullName).Contains(extension))
                 {
-                    DateTime dt2 = new DateTime();
-                    dt2 = Convert.ToDateTime(fileSI.CreationTime);
+                    DateTime dt2 = Convert.ToDateTime(fileSI.CreationTime);
                     int timeDifference = (int)(dt - dt2).TotalSeconds;
                     if (timeDifference <= 10 & timeDifference >= 0 & fileSI.Name != fileName)
                     {
